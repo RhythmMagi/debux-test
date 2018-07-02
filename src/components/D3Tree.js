@@ -1,11 +1,29 @@
 import React, { Component } from 'react';
 import Tree from 'react-d3-tree';
+// import { layout, select, behavior, event } from 'd3';
+
 
 class D3Tree extends Component {
   constructor(props) {
     super(props);
+<<<<<<< HEAD
     Tree.defaultProps.orientation = 'vertical'; 
+=======
+    Tree.defaultProps.orientation = 'vertical'
+    // this.createD3Tree = this.createD3Tree.bind(this);
+>>>>>>> 97b8f7778eabd8b4841dddc608580e6fdc659e11
   }
+
+  //   componentDidMount() {
+  //     this.createD3Tree()
+  //  }
+  //   componentDidUpdate() {
+  //     this.createD3Tree()
+  //  }
+  //   createD3Tree(treeData) {
+  //   }
+    
+
   
   render() {
     const svgStyleObj = {
@@ -39,6 +57,7 @@ class D3Tree extends Component {
         },
       },
     };
+  
     console.log('Data: ', this.props.treeData);
     return (
       <div id="treeWrapper" style={{width:'98%', height:'95%'}}>
