@@ -2,7 +2,7 @@
  * Created by Wontae Han, Alejandro Romero, Shafayat Alam and Jeff Schrock.
  * Copyright © 2018 De-Bux. All rights reserved.
  **************************************************************************/
-.appWindow {
+ .appWindow {
     color: #4d92f9;
 } 
 
@@ -32,12 +32,12 @@
     border: solid 0.5px;
     border-color: #4d92f9;
     width: 50%;
-    height: 450px;
+    height: 425px;
     margin: 2px;
 }
 
 .chartWindowDisplay {
-    height: 425px;
+    height: 400px;
     overflow: auto;
 }
 
