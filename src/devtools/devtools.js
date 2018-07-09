@@ -11,6 +11,10 @@ let curData;
 //styles
 document.body.style = 'background: #242d3d;';
 
+window.__REACT_DEVTOOLS_GLOBAL_HOOK__.renderers.onchange = function() => {
+  //update the devtool
+}
+
 chrome.devtools.panels.create(
   'debux-test',
   null, // icon
@@ -171,12 +175,12 @@ class App extends Component {
         <NavBar/>
         <button className="button" onClick={()=>this.handleClick('dom')}>DOMs</button>
         <span> </span>
-        <button className="button" onClick={()=>this.handleClick('component')}>Components</button>
+        <button className="button" /*onClick={()=>this.handleClick('component')}*/>Components</button>
         <span> </span>
-        <button className="button" onClick={()=>this.handleClick('store')}>Store</button>
+        <button className="button" /*onClick={()=>this.handleClick('store')}*/>Store</button>
         <div className="rowCols">
-        <ChartWindow treeType='Components:' treeData={this.state.data}/>
-        <ChartWindow treeType='Store:' storeData={this.state.storeHistory}/>
+        <ChartWindow treeType='Components:' onChange={()=>this.handleClick('component')} treeData={this.state.data}/>
+        <ChartWindow treeType='Store:' onChange={()=>this.handleClick('store')} storeData={this.state.storeHistory}/>
         </div>
         <InfoWindow/>
         <br />
