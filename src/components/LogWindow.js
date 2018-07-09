@@ -11,9 +11,9 @@ const LogWindow = (props) => {
 //   });
   return (
     <div className="logWindow">
-      Logs:  
+      Logs:
       {/* {logDisplay} */}
-      <Logs/>
+      <Logs memory={props.memory} handleClickLog={props.handleClickLog}/>
     </div>
   );
 };

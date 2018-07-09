@@ -3,6 +3,7 @@
  * Copyright © 2018 De-Bux. All rights reserved.
  **************************************************************************/
 import React from 'react';
+import Logo from '../img/DebuxLogo48.png'
 
 const NavBar = (props) => {
   return (
@@ -20,6 +21,7 @@ const NavBar = (props) => {
           <a href="#">Display Store Only</a>
         </div>
   	  </div>
+      <img className = 'logo' src={Logo} />
     </div>
   );
 };

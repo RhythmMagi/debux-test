@@ -13,16 +13,14 @@ import ChartWindow from '../components/ChartWindow';
 import MainDisplay from '../components/MainDisplay';
 
 let curData;
+let logMode = false;
 //styles
 document.body.style = 'background: #242d3d;';
-<<<<<<< HEAD
 
 window.__REACT_DEVTOOLS_GLOBAL_HOOK__.renderers.onchange = function() => {
   //update the devtool
 }
 
-=======
->>>>>>> 9d63ca5a9ca3accb767d5604a3944ad245e70461
 chrome.devtools.panels.create(
   'debux-test',
   null, // icon
@@ -41,18 +39,44 @@ chrome.devtools.panels.create(
   }
 );
 
+
 // Create React App Component
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: null,
       treeData: null, 
       storeHistory: [],
       stateAndProps: [],
       stateAndPropsStore: [],
       memory: [],
     };
+    chrome.devtools.panels.create(
+      'debux-test',
+      null, // icon
+      'devtools.html',
+      () => {
+        const port = chrome.extension.connect({ name: 'debux-test' });
+        port.postMessage({
+          name: 'connect',
+          tabId: chrome.devtools.inspectedWindow.tabId,
+        });
+        port.onMessage.addListener((msg) => {
+          if (!msg.data) return; // abort if data not present, or if not of type object
+          if (typeof msg !== 'object') return;
+          if(JSON.stringify(curData) !== JSON.stringify(msg)) {
+            curData = msg;
+            logMode = false;
+            clearInterval(this.update);
+            this.update = 0;    
+            this.update = setInterval( () => this.updateTree(), 100);
+          }
+        });
+      }
+    );
   }
+  
 
   makePropsData = (data, arr) => {
     if (data.name === undefined) return;
@@ -189,19 +213,28 @@ class App extends Component {
 
   handleClick = (str) => {
     clearInterval(this.update);
+    this.update = 0;
     this.update = setInterval( () => this.updateTree(str), 100);
   }
 
-  logTest = () => {
-
+  handleClickLog = (stateData) => {
+    clearInterval(this.update);
+    this.update = 0;
+    logMode = true;
+    this.setState({
+      treeData: stateData.treeData, 
+      storeHistory: stateData.storeHistory,
+      stateAndProps: stateData.stateAndProps,
+      stateAndPropsStore: stateData.stateAndPropsStore,
+    });
   }
 
   updateTree = (str) => {
     if(curData) {
       if(curData.data) {
         let updateData = curData.data[0];
-        let propsData = [];
         let treeData = [];
+        let propsData = [];
         if(str === 'dom') this.makeTreeData(updateData, treeData);
         else if(str === 'component') this.filterDOM(updateData, treeData);
         else {
@@ -232,25 +265,30 @@ class App extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this.update = setInterval( () => this.updateTree(), 100);
-  }
+  // componentDidMount = () => {
+  //   this.update = setInterval( () => this.updateTree(), 100);
+  // }
+
   componentWillUnmount() {
     clearInterval(this.update);
+    this.update = 0;
   }
 
   shouldComponentUpdate = (nextProps, nextState) => {
     if(JSON.stringify(this.state.storeHistory) !== JSON.stringify(nextState.storeHistory)) {
       let updateMemory = this.state.memory.slice();
       let memoryObj = {};
-      memoryObj.data = curData;
-      memoryObj.store = curData.store;
-      memoryObj.count = updateMemory.length;
+      memoryObj.state = Object.assign({}, nextState);
+      memoryObj.count = updateMemory.length +1;
       updateMemory.push(memoryObj);
-      this.setState({
-        memory: updateMemory
-      });
-    }
+      if(!logMode) {
+        this.setState({
+          memory: updateMemory
+        });
+      }
+      clearInterval(this.update);
+      this.update = 0;
+    }    
     return JSON.stringify(this.state) !== JSON.stringify(nextState);
   }
 
@@ -260,16 +298,6 @@ class App extends Component {
         <NavBar/>
         {/* <button className="button" onClick={()=>this.handleClick('dom')}>DOMs</button>
         <span> </span>
-<<<<<<< HEAD
-        <button className="button" /*onClick={()=>this.handleClick('component')}*/>Components</button>
-        <span> </span>
-        <button className="button" /*onClick={()=>this.handleClick('store')}*/>Store</button>
-        <div className="rowCols">
-        <ChartWindow treeType='Components:' onChange={()=>this.handleClick('component')} treeData={this.state.data}/>
-        <ChartWindow treeType='Store:' onChange={()=>this.handleClick('store')} storeData={this.state.storeHistory}/>
-        </div>
-        <InfoWindow/>
-=======
         <button className="button" onClick={()=>this.handleClick('component')}>Components</button>
         <span> </span> */}
         {/* <button className="button" onClick={()=>this.logTest()}>Log test</button> */}
@@ -279,8 +307,8 @@ class App extends Component {
           memory={this.state.memory} 
           stateAndProps={this.state.stateAndProps} 
           stateAndPropsStore={this.state.stateAndPropsStore}
+          handleClickLog={this.handleClickLog}
           handleClick={this.handleClick}/>
->>>>>>> 9d63ca5a9ca3accb767d5604a3944ad245e70461
         <br />
       </div>
     );
