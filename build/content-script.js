@@ -1,13 +1,15 @@
-//  Created by Grant Kang, William He, and David Sally on 9/10/17.
-//  Copyright © 2018 React Sight. All rights reserved.
+/*  ************************************************************************
+ * Created by Wontae Han, Alejandro Romero, Shafayat Alam and Jeff Schrock.
+ * Copyright © 2018 De-Bux. All rights reserved.
+ **************************************************************************/
 /** function to inject traversal script into running tab's context */
 function injectScript(file, node) {
-  console.log('injectScript is invoked');
   const th = document.getElementsByTagName(node)[0];
-  const s = document.createElement('script');
-  s.setAttribute('type', 'text/javascript');
-  s.setAttribute('src', file);
-  th.appendChild(s);
+  console.log('injectScript, th: ', th);
+  const scriptFile = document.createElement('script');
+  scriptFile.setAttribute('type', 'text/javascript');
+  scriptFile.setAttribute('src', file);
+  th.appendChild(scriptFile);
 }
 
 // Listening for events emitted from user's application *window.postMessage()*

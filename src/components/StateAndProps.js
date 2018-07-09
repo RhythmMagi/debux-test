@@ -3,18 +3,11 @@
  * Copyright © 2018 De-Bux. All rights reserved.
  **************************************************************************/
 import React from 'react';
-import DropDown from './DropDown';
-import ExpandToggle from './ExpandToggle';
 
-
-const Toggle = (props) => {
+const stateAndProps = (props) => {
   return (
-    <div className='toggle'>
-      {/* <ExpandToggle/> */}
-      <span>{props.treeType}</span>
-      <DropDown dropDownHandleClick={props.dropDownHandleClick}/>
-    </div>
-  );
-};
+    <pre className='stateAndProps'>{JSON.stringify(props.stateAndProps, undefined, 2)}</pre>
+  )
+}
 
-export default Toggle;
+export default stateAndProps;

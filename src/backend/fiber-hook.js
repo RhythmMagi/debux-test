@@ -1,3 +1,8 @@
+/*  ************************************************************************
+ * Created by Wontae Han, Alejandro Romero, Shafayat Alam and Jeff Schrock.
+ * Copyright © 2018 De-Bux. All rights reserved.
+ **************************************************************************/
+
 /* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
 /* eslint no-use-before-define: off, no-var: off */
 import { parseFunction } from './common';
@@ -70,6 +75,7 @@ export const recur16 = (node, parentArr) => {
   if (node.memoizedProps) newComponent.props = props16(node);
 
   // get store
+  // console.log('node: ', node);
   if (node.type && node.type.propTypes) {
     if (node.type.propTypes.hasOwnProperty('store')) {
       _DebuxStore = node.stateNode.store.getState();
@@ -93,7 +99,7 @@ export const recur16 = (node, parentArr) => {
  *
  */
 export const traverse16 = (fiberDOM) => {
-  console.log('In traverse16 function');
+  // console.log('In traverse16 function');
   if (typeof fiberDOM === 'undefined') return;
   if (_DebuxDebugMode) console.log('[Debux] traverse16 vDOM: ', fiberDOM);
   const components = [];
@@ -102,10 +108,9 @@ export const traverse16 = (fiberDOM) => {
   const data = {
     data: components,
     store: _DebuxStore,
-    reduxStore: window.__DEBUX_STORE_TRACKER__
   };
   data.data = data.data[0].children[0].children;
-  const DebuxData = { data: components, store: _DebuxStore, reduxStore: window.__DEBUX_STORE_TRACKER__};
+  const DebuxData = { data: components, store: _DebuxStore};
   const clone = JSON.parse(JSON.stringify(DebuxData));
   if (_DebuxDebugMode) console.log('[Debux] retrieved data --> posting to content-scripts...: ', DebuxData);
   if (_DebuxDebugMode) console.log('[Debux] SENDING -> ', clone);

@@ -3,18 +3,19 @@
  * Copyright © 2018 De-Bux. All rights reserved.
  **************************************************************************/
 import React from 'react';
-import DropDown from './DropDown';
-import ExpandToggle from './ExpandToggle';
+import Logs from './Logs';
 
-
-const Toggle = (props) => {
+const LogWindow = (props) => {
+//   let logDisplay = props.memory.map((el)=>{
+//     return <pre >{el.count}  {JSON.stringify(el.store, undefined, 2)} </pre>
+//   });
   return (
-    <div className='toggle'>
-      {/* <ExpandToggle/> */}
-      <span>{props.treeType}</span>
-      <DropDown dropDownHandleClick={props.dropDownHandleClick}/>
+    <div className="logWindow">
+      Logs:  
+      {/* {logDisplay} */}
+      <Logs/>
     </div>
   );
 };
 
-export default Toggle;
+export default LogWindow;

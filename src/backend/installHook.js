@@ -1,3 +1,7 @@
+/*  ************************************************************************
+ * Created by Wontae Han, Alejandro Romero, Shafayat Alam and Jeff Schrock.
+ * Copyright © 2018 De-Bux. All rights reserved.
+ **************************************************************************/
 /* eslint brace-style: off, camelcase: off, max-len: off, no-prototype-builtins: off, no-restricted-syntax: off, consistent-return: off, no-inner-declarations: off */
 import { traverse16 } from './fiber-hook';
 import { getData } from './react-15-hook';
@@ -37,13 +41,15 @@ if (!__DebuxHasRun) {
       return;
     }
     // React fiber (16+)
+  
     if (instance && instance.version) {
       __Debux_ReactVersion = instance.version;
+      console.log('version(16+): ', instance.version);
       if (__DebuxDebugMode) console.log('version: ', __Debux_ReactVersion);
       devTools.onCommitFiberRoot = (function (original) {
         return function (...args) {
           __DebuxFiberDOM = args[1];
-          if (__DebuxDebugMode) console.log('DOM: ', __DebuxFiberDOM);
+          // if (__DebuxDebugMode) console.log('DOM: ', __DebuxFiberDOM);
           traverse16(__DebuxFiberDOM);
           return original(...args);
         };
@@ -51,6 +57,7 @@ if (!__DebuxHasRun) {
     }
     // React 15 or lower
     else if (instance && instance.Reconciler) {
+      console.log('version(15-): ', instance);
       // hijack receiveComponent method which runs after a component is rendered
       instance.Reconciler.receiveComponent = (function (original) {
         return function (...args) {
