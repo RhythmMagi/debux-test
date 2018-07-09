@@ -24,9 +24,6 @@
 }
 
 /*=================Hamburger Menu=================*/
-
-
-
 .optionbtn div{
     width: 35px;
     height: 5px;
@@ -60,8 +57,8 @@
 	background-color: #f1f1f1
 }
 
-.options:hover .options-content {
-    display: block;
+.show {
+	display: block;
 }
 
 .options:hover .optionbtn div {
